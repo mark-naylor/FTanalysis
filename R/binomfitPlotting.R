@@ -134,7 +134,7 @@ circleFun <- function(center = c(0,0), radius = 6, npoints = 100){
 # # # # # # # # # # # # #
 
 
-PDplot <- function(FTdataset, resultsOutput, plotType=1, zeroNsOffset=0, ageLabels=c(1,2,3,5,7,10,20,50,100,200)){
+PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ageLabels=c(1,2,3,5,7,10,20,50,100,200)){
   
   PeakAgeResults = resultsOutput$PeakAgeResults
   PeakAgeProposed = resultsOutput$PeakAgeProposed
@@ -225,9 +225,6 @@ PDplot <- function(FTdataset, resultsOutput, plotType=1, zeroNsOffset=0, ageLabe
     dat3 = data.frame(atZ, pd[,1],pd[,5],pd[,6],pd[,7],pd[,8],pd[,9],log(pd[,1]), bottom)
     colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak", "thirdPeak","fourthPeak","total","logAges","bottom")		
   }
-  
-  
-  
   
   if(plotType==1){
     
@@ -450,4 +447,33 @@ plotTrackCountSummary <- function(FTdataset){
   df = data.frame(nS = FTdataset$nS , nI = FTdataset$nI)
   countPlot <- ggplot(df)+geom_point( aes(x=nS, y=nI)) 
   return(countPlot)
+}
+
+makeBinomfitSummaryPlot_4AgeModels <-function(FTdataset, resultsOutput1, resultsOutput2, resultsOutput3, resultsOutput4, ageLabels, dataTrasformStyle="arcsinTransformation"){
+  
+  BICmodelComparisonPlot <- ggplot(BICdf, aes(x = nAges, y = deltaBIC)) + geom_point( color="blue") + geom_line()
+
+  trackCountSummaryPlot <- plotTrackCountSummary(FTdataset)
+  PDplotNoOverlay  <- PDplot(FTdataset, resultsOutput1, plotType=1, zeroNsOffset=0.5)
+  plot2  <- PDplot(FTdataset, resultsOutput1, plotType=6, zeroNsOffset=0.5)
+  
+  cols <- rep(1.1, FTdataset$nGrain)
+  
+  radialPlotPlot1 <- radialPlot(resultsOutput1, FTdataset, colourBy=cols, noColor=FALSE, ageLabels=ageLabels, colorAsFactor=TRUE, style=dataTrasformStyle)
+  PDplot1  <- PDplot(FTdataset, resultsOutput1, plotType=7, zeroNsOffset=0.5)
+  
+  radialPlotPlot2 <- radialPlot(resultsOutput2, FTdataset, colourBy=1, ageLabels=ageLabels, colorAsFactor=TRUE, style=dataTrasformStyle)
+  PDplot2  <- PDplot(FTdataset, resultsOutput2, plotType=7, zeroNsOffset=0.5)
+  
+  radialPlotPlot3 <- radialPlot(resultsOutput3, FTdataset, colourBy= 1, ageLabels=ageLabels, colorAsFactor=TRUE, style=dataTrasformStyle)
+  PDplot3  <- PDplot(FTdataset, resultsOutput3, plotType=7, zeroNsOffset=0.5)
+  
+  radialPlotPlot4 <- radialPlot(resultsOutput4, FTdataset, colourBy= 1, ageLabels=ageLabels, colorAsFactor=TRUE, style=dataTrasformStyle)
+  PDplot4  <- PDplot(FTdataset, resultsOutput4, plotType=7, zeroNsOffset=0.5)
+  
+  theme_set(theme_bw(10))
+  layout <- matrix(c(1, 2, 3, 4, 5, 6,7,8,9,10,11,12), nrow = 3, byrow = TRUE)
+  summaryPlot <- multiplot( trackCountSummaryPlot, PDplotNoOverlay, plot2, BICmodelComparisonPlot, PDplot1, radialPlotPlot1, PDplot2, radialPlotPlot2, PDplot3, radialPlotPlot3, PDplot4, radialPlotPlot4, layout=layout)
+  
+  return(summaryPlot)
 }
