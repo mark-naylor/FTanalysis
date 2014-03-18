@@ -444,3 +444,10 @@ plotOrderedAges <- function(FTdataset){
   df = data.frame(ages=grainAge[n], index=index, lowerAge=FTdataset$grainAges95min[n], upperAge=FTdataset$grainAges95max[n])
   ggplot(df)+geom_point( aes(x=ages, y=index)) + geom_errorbarh( aes(x=ages, xmax= upperAge, xmin= lowerAge,y=index)) + xlim(0,100)
 }
+
+
+plotTrackCountSummary <- function(FTdataset){
+  df = data.frame(nS = FTdataset$nS , nI = FTdataset$nI)
+  countPlot <- ggplot(df)+geom_point( aes(x=nS, y=nI)) 
+  return(countPlot)
+}
