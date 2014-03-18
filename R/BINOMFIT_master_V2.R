@@ -52,7 +52,6 @@ BINOMFIT_CentralAge  <- function (FTdataset) {
   ChiFactor=(((nS-nSExp)**2)/nSExp)+(((nI-nIExp)**2)/nIExp)
   ChiSquared = sum(ChiFactor)
   degFreedom = length(nI)-1
-  print(degFreedom)
   
   centralAge <- (1/LamdaD) * (log(( LamdaD*(eta[20]/(1-eta[20]))*FTdataset$rhoD*FTdataset$Zeta*0.5)+1))/1000000
   centralAgeStError <-centralAge* sqrt( (1 / ( eta[20]**2 * (1-eta[20])**2 * sum(w))) +(1/FTdataset$nD) + ((FTdataset$relErrZeta)**2) )
@@ -66,7 +65,7 @@ BINOMFIT_CentralAge  <- function (FTdataset) {
 
 
 
-BINOMFIT <- function (FTdataset, TrialAges, PkNum, details=NULL, K=1){
+BINOMFIT <- function (FTdataset, TrialAges, PkNum, details=NULL, K=1, verbose=TRUE){
   
   PeakAge = array( dim=( 10 ) )
   SEPeakAge = array( dim=c(10, 4))
@@ -90,6 +89,7 @@ BINOMFIT <- function (FTdataset, TrialAges, PkNum, details=NULL, K=1){
   KernelFactor = .6     # 'Scaling factor used in PD plots
   PkWidthFactor = sqrt(1 + KernelFactor * KernelFactor)
   
+  if(verbose){
   Label1 = "=================BinomFit Program  v. 1.8  (Brandon 9/15/04)=================="
   print(  Label1 )
   print(  "This program determines best-fit peaks based on a binomial model described by" )
@@ -107,6 +107,7 @@ BINOMFIT <- function (FTdataset, TrialAges, PkNum, details=NULL, K=1){
   print(  paste( "Total decay constant for 238U (yr^-1) = ", LamdaD ) )
   print(  paste( "Geometry factor = ", GF ) )
   print( "" )
+  }
   
   Zmax = max(Zgrain)
   Zmin = min(Zgrain)
@@ -142,8 +143,7 @@ BINOMFIT <- function (FTdataset, TrialAges, PkNum, details=NULL, K=1){
     if (PkFrac[I] < .001) { PkFrac[I] = .001 }
   }
   
-  
-  
+  if(verbose){
   print( " " )
   
   # '... Begin routine to find best-fit peaks
@@ -164,11 +164,14 @@ BINOMFIT <- function (FTdataset, TrialAges, PkNum, details=NULL, K=1){
   print(   paste( "         AVERAGE OF THE SE(Z)'S for THE GRAINS = ", QMeanZerr ))
   print(   paste( "ESTIMATED WIDTH OF PEAKS IN PD PLOT IN Z UNITS = ", EstPkWidth ))
   
-  
+  }
   
   # '... Find best-fit peaks using EM method
+  if(verbose){
   print(  "   *** EM routine is finding a set of best-fit peaks ***" )
-  results <- EM(PkTheta, PkFrac, PkNum, nGrain, Ns, Ni, Nt)
+  }
+  
+  results <- EM(PkTheta, PkFrac, PkNum, nGrain, Ns, Ni, Nt, verbose=verbose)
   
   
   
@@ -183,6 +186,7 @@ BINOMFIT <- function (FTdataset, TrialAges, PkNum, details=NULL, K=1){
   print(  paste( "{Peak width is for PD plot assuming a kernel factor = ", KernelFactor, "}"))
   print(   "PEAK   ----PEAK AGE & CONF. INTERVAL (MA)---- PEAK WIDTH --GRAINS IN PEAK----")
   print(  "NUMBER   MEAN (----68% CI---) (----95% CI---)    W(Z)    FRAC(%) SE(%)  COUNT")
+  
   TotalNum = 0
   TotalFrac = 0
   D1 <- array(dim=PkNum) ; D2 <- array(dim=PkNum) ; D3 <- array(dim=PkNum)
