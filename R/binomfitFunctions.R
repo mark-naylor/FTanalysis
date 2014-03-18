@@ -90,10 +90,10 @@ for (I in 1:Num){
 	C2 = C2 + dev * dev / Var
 }
 Chi2 = C2
-Chi2
+return(Chi2)
 }
 
-EM <- function(PkTheta, PkFrac, PkNum, Num, Ns, Ni, Nt){
+EM <- function(PkTheta, PkFrac, PkNum, Num, Ns, Ni, Nt, verbose=TRUE){
 # '============================================================================
 # '... Uses the EM method outlined in Galbraith (1988) to find the best-fit
 # ' peaks (see Titterington and others, 1985, p. 84-97 for further details).
@@ -104,7 +104,7 @@ Rtol = .00001
 P=array(dim=c(10, 230))
 # '============================================================================
 
-print(  "ITERATION  LOG-LIKELIHOOD  RELATIVE CHANGE" )
+if(verbose){ print(  "ITERATION  LOG-LIKELIHOOD  RELATIVE CHANGE" ) }
 
 OldLogLike = 0
 for(Iter in 1:300){
@@ -148,7 +148,7 @@ for(Iter in 1:300){
 	# ' on the maximum number of iterations that can occur without advancing
 	# ' the solution.
 	Rchange = abs(.5 * (LogLike - OldLogLike) / (LogLike + OldLogLike))
-	print( paste( Iter, LogLike, Rchange ) )
+	if(verbose){ print( paste( Iter, LogLike, Rchange ) ) }
 	
 	if (Rchange <= Rtol) {
 		Itest1 = Itest1 + 1
@@ -159,12 +159,10 @@ for(Iter in 1:300){
 	OldLogLike = LogLike
 
 	if (Iter > 300){
-		print( )
 		print(  "   >>>    WARNING: LOCAL MINIMUM POORLY DEFINED   <<<" )
 		print(  "   >>> CHECK THAT BEST-FIT SOLUTION IS REASONABLE <<<" )
 		break
 	}
-	# print("Finished EM optimmisation")
 }
 
 
@@ -591,7 +589,6 @@ KernelPD <- function (Zi, Order, Zgrain, Zerr, Num, KernelFactor = .6){
 # '... Calculates the probability density function and its derivatives
 # ' at the specified value of Zi. When Order = -1, the routine returns the
 # ' estimated probability density and standard error. Otherwise SEPD == 0.
-# ' Shared variables: Zgrain(), Zerr(), Num%
 # ' Constant: KernelFactor, which is set in main program
 # '============================================================================
 PD = 0
@@ -654,12 +651,8 @@ calcPooledAge <- function(nS, nI, Zeta, ZetaStErr, RhoD, nD){
 # "F = [Chi^2(1) - Chi^2(2)] / [Chi^2(2)/DF2]"
 # "    where 1 refers to the first fit and 2,"
 # "    the second fit with Chi^2(1) >= Chi^2(2)."
-#
-# "'second fit becomes first fit' option allows the user to efficiently"
-# "analyze a series of results where X^2 is successively reduced due to"
-# "an increase in the number of fit parameters. This option is particularly"
-# "useful for examining data from the BINOMFIT AND GAUSSFIT programs."
-# "To halt program, use Ctrl-Break."
+
+
 Ftest <- function(Chi1, Chi2, DF1, DF2){
 	if(Chi2>Chi1){ tmp1 <- Chi1 ; tmp2 <- DF1 ; Chi1 <- Chi2 ; DF1 <- DF2 ; Chi2 <- tmp1 ; DF2<- tmp2 }
 	
