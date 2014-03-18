@@ -2,7 +2,7 @@
 \alias{TaufromBeta}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to get the age from the logOdds parameter used in binomial mixture models in the EM algorithm.}
+This routine calculates the FT age from the log odds parameter: Beta = ln(Ns/Ni)}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
@@ -28,11 +28,7 @@ TaufromBeta(Beta, Zeta0, GF, RhoD0)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+FT age in Ma
 }
 \references{
 %% ~put references to the literature/web site here ~

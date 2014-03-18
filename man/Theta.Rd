@@ -2,9 +2,8 @@
 \alias{Theta}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to return the calculation of theta for each grain to be used in the EM algorithm}
+Given a FT age, this routine calculates Theta = Ns /(Ns+Ni) each grain to be used in the EM algorithm}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 Theta(age, Zeta0, GF, RhoD0)
@@ -12,16 +11,16 @@ Theta(age, Zeta0, GF, RhoD0)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{age}{
-%%     ~~Describe \code{age} here~~
+FT age in Ma
 }
   \item{Zeta0}{
-%%     ~~Describe \code{Zeta0} here~~
+zeta factor
 }
   \item{GF}{
-%%     ~~Describe \code{GF} here~~
+Geometry factor
 }
   \item{RhoD0}{
-%%     ~~Describe \code{RhoD0} here~~
+monitor track density used for this dataset
 }
 }
 \details{

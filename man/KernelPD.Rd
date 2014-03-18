@@ -5,7 +5,7 @@
 CHECK binomfit description
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Calculates the probability density function and its derivatives at the specified value of Zi. 
 }
 \usage{
 KernelPD(Zi, Order, Zgrain, Zerr, Num, KernelFactor = 0.6)
@@ -16,7 +16,7 @@ KernelPD(Zi, Order, Zgrain, Zerr, Num, KernelFactor = 0.6)
 %%     ~~Describe \code{Zi} here~~
 }
   \item{Order}{
-%%     ~~Describe \code{Order} here~~
+When Order = -1, the routine returns the estimated probability density and standard error. Otherwise SEPD == 0.
 }
   \item{Zgrain}{
 %%     ~~Describe \code{Zgrain} here~~
