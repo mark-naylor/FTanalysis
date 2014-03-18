@@ -2,7 +2,7 @@
 \alias{colourList}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+Object to help assign colours in ggplot2 - May be redundent
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~

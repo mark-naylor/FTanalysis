@@ -2,7 +2,7 @@
 \alias{readTarimW2File}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to read in some of the benchmark files - needs tidying up
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

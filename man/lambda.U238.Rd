@@ -2,7 +2,7 @@
 \alias{lambda.U238}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+Total decay rate of U238 [yr^-1]
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
@@ -10,7 +10,7 @@
 \usage{data(lambda.U238)}
 \format{
   The format is:
- num 1.55e-10
+ num 1.55125e-10
 }
 \details{
 %%  ~~ If necessary, more details than the __description__ above ~~

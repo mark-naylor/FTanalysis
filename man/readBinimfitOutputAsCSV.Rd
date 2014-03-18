@@ -2,7 +2,7 @@
 \alias{readBinimfitOutputAsCSV}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to read in the standard binomfit output files to enable analysis of existing datasets and back catalogues
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

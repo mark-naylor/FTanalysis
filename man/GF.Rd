@@ -2,7 +2,7 @@
 \alias{GF}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+Geometric Factor - a parameteristed description of the shape of the grains
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~

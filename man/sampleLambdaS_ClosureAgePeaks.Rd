@@ -2,8 +2,7 @@
 \alias{sampleLambdaS_ClosureAgePeaks}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
-}
+Function to assign each grain an expected observed number of spontaneous tracks, nS, based upon some assumed amount of fissile elements described through the number of induced tarcks, nI, and the sampling of a closure age using a vector of fixed closure ages which may have specified sampling probabilities.}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }

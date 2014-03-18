@@ -2,10 +2,14 @@
 \alias{BINOMFIT}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to perform the standard binomfit peak fitting analysis
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This program determines best-fit peaks based on a binomial model described by
+  Galbraith and Green (1990, Nuclear Tracks and Radiation Measurements, v. 17,
+  p. 197-206). The user must give an initial guess for the number of peaks
+  and the approximate ages of the peaks. The fit is found using the EM method
+  outlined in Galbraith (1988, Technometrics, v. 30, p. 280).
 }
 \usage{
 BINOMFIT(FTdataset, TrialAges, PkNum, details = NULL, K = 1)
@@ -29,8 +33,14 @@ BINOMFIT(FTdataset, TrialAges, PkNum, details = NULL, K = 1)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+  MODIFIED FROM: BinomFit Program  v. 1.8  (Brandon 9/15/04)
+  
+  Note that BINOMFIT does not include the routine used in ZETAAGE to
+  calculate  precise ages for grains with low track densities. As a result,
+  the range in grain ages reported here may differ somewhat from that reported
+  
+  Methods and fission track constants are after Hurford and Green (1983)
+  }
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use

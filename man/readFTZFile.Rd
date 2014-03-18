@@ -2,7 +2,7 @@
 \alias{readFTZFile}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to read in the standardised format FTZ files
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

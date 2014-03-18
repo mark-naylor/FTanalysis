@@ -2,7 +2,7 @@
 \alias{plotOrderedAges}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+New plotting function to plot ordered grain ages with uncertainty
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

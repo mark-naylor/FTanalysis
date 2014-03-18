@@ -2,7 +2,7 @@
 \alias{circleFun}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to return a curve for the age scale on the Radial Plot
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

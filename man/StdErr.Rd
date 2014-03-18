@@ -2,11 +2,9 @@
 \alias{StdErr}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
-}
+Function to calculate the standard errors on the binomfit age models.}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+Typically, this is used in conjunction with the results of the EM algorithm.}
 \usage{
 StdErr(FTdataset, PkTheta, PkFrac, PkNum, GF)
 }

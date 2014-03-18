@@ -2,10 +2,10 @@
 \alias{readAlpsFile}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Read in One of Hugh's Alpine datasets - Is this in the right place?
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Read in One of Hugh's Alpine datasets - Is this in the right place?
 }
 \usage{
 readAlpsFile(i = 2)

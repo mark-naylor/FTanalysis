@@ -2,8 +2,7 @@
 \alias{getChi2Comp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
-}
+Function for determining the significance of one model over another based on their chi2 values and the degrees of freedom for each model using an F test}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }

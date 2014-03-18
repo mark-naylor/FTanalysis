@@ -3,12 +3,11 @@
 \alias{FTanalysis}
 \docType{package}
 \title{
-What the package does (short line)
+This package is a collection of tools to help analyse Fission Track data
 ~~ package title ~~
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+Standard Fission Track analysis packages are focussed on the analysis of individual datasets. This package wraps the same funcitons in the R Language which enables researches to perform new uncertainty analyses - for example bootstrap analyses - which require the analyses to be carried out ~1000 of times on different randomised datasets.
 }
 \details{
 \tabular{ll}{

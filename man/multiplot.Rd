@@ -2,7 +2,7 @@
 \alias{multiplot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to combine several ggplot2 graphs in a single multi-plot image.
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

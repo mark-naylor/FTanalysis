@@ -2,8 +2,7 @@
 \alias{TaufromBeta}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
-}
+Function to get the age from the logOdds parameter used in binomial mixture models in the EM algorithm.}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }

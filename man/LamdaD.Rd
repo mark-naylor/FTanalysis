@@ -2,15 +2,14 @@
 \alias{LamdaD}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
-}
+Rate of decay of }
 \description{
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
+Total decay rate of U238 [yr^-1]
 }
 \usage{data(LamdaD)}
 \format{
   The format is:
- num 1.55e-10
+ num 1.55125e-10
 }
 \details{
 %%  ~~ If necessary, more details than the __description__ above ~~

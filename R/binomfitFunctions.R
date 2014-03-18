@@ -200,7 +200,7 @@ for(Iter in 1:300){
 
 
 results = data.frame( PkTheta, PkFrac, LogLike, Iter)
-results
+return(results)
 }
 
 
@@ -278,9 +278,6 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
 # ' parameters using the method outlined in Galbraith (1988, p. 280). Note that
 # ' the method he uses produces a scaled covariance matrix.
 # ' ZErr() (shared) = SE(Z) for grains
-# '============================================================================
-# DIM P!(10, 230), A!(9, 9), B!(9, 10), C!(10, 10)
-# DIM Covar!(19, 19), W!(19), V!(19, 19)
 # '============================================================================
 # '... Calculate the array P()
 
@@ -445,6 +442,8 @@ PeakAgeCI65plus=SEPeakAge[, 2]
 PeakAgeCI95min=SEPeakAge[, 3]
 PeakAgeCI95plus=SEPeakAge[, 4]
 results = data.frame(PeakAge, PeakAgeCI65min, PeakAgeCI65plus, PeakAgeCI95min, PeakAgeCI95plus, SEPkfrac, PkSDz, Cnum)
+
+return(results)
 
 }
 

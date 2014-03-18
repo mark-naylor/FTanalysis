@@ -2,8 +2,7 @@
 \alias{readVermishTestFile}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
-}
+Function to read in the test dataset provided by Vermish with his Java RadialPlotter - for benchmarking}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }

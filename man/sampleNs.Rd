@@ -2,7 +2,7 @@
 \alias{sampleNs}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to generate a stochastic sample of nS given some expected observed number of events using a Poisson model.
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

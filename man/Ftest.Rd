@@ -2,7 +2,7 @@
 \alias{Ftest}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to perform the Ftest comparing the Chi2 and df from 2 different age models on the same data
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

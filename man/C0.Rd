@@ -2,7 +2,7 @@
 \alias{C0}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+Function to...
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~

@@ -2,10 +2,10 @@
 \alias{Fiu}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to calculate the Probability Mass Function for use in the EM algorithm for estimating peak ages.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+F_iu(y_u;beta_i) is the probability of the observation y_u give the age model beta_i
 }
 \usage{
 Fiu(Ru, Su, Tu, PkTheta)

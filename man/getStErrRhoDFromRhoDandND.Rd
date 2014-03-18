@@ -2,8 +2,7 @@
 \alias{getStErrRhoDFromRhoDandND}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
-}
+Function for computing the stErr on RhoD which is commonly used for input files from rhoD and nD}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }

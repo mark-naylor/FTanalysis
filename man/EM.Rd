@@ -2,10 +2,10 @@
 \alias{EM}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Expectation Maximisation algorithm used for the binomfit peak fitting 
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+(modified from Binomfit)
 }
 \usage{
 EM(PkTheta, PkFrac, PkNum, Num, Ns, Ni, Nt)

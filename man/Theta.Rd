@@ -2,8 +2,7 @@
 \alias{Theta}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
-}
+Function to return the calculation of theta for each grain to be used in the EM algorithm}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }

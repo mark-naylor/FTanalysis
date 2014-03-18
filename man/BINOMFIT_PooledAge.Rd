@@ -2,7 +2,7 @@
 \alias{BINOMFIT_PooledAge}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to calculate the pooled age
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -23,13 +23,14 @@ BINOMFIT_PooledAge(FTdataset, details = NULL, K = 1)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  Used when we can assume that all of the grain have a common parent age
+  --Function copied from spreadsheet calculations--
 }
 \value{
-%%  ~Describe the value returned
+Returns Pooled Age +/1 1sd 
 %%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
+  \item{results$age }{ Pooled age}
+  \item{results$error }{ 1sd}
 %% ...
 }
 \references{
