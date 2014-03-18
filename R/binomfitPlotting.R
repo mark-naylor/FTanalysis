@@ -1,5 +1,3 @@
-library(ggplot2)
-library(scales)
 LamdaD <- 1.55125E-10  # 'Total decay constant for 238U (yr^-1)
 colourList<-c("purple","green","yellow","red")
 colourList<-c("A","B","C","D")
@@ -17,8 +15,6 @@ radialPlot <- function(resultsOutput, FTdataset, colourBy=1, ageLabels=c(1,5,10,
   
   if(length(colourBy)==1){ pointColour <- rep(FTdataset$nGrain, colourBy) 
   } else { pointColour <- colourBy }
-  
-  summary(resultsOutput)
   
   if( min(FTdataset$nI, FTdataset$nS) == 0 ){  
     print("Radial Plot WARNING: Zero track counts in dataset - Using arcsin transformation")
@@ -73,7 +69,6 @@ radialPlot <- function(resultsOutput, FTdataset, colourBy=1, ageLabels=c(1,5,10,
   yLimMax <- max(y)+2  ;  		yLimMin <- min(y)-2
   xLimMax <- max(x)*1.15
   
-  print(x)
   radialDF <- data.frame(x, y, pointColour)
   
   dat <- circleFun(c(0,0), radius, npoints = 100)

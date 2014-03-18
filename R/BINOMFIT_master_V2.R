@@ -1,4 +1,3 @@
-source("~/Documents/MyPapers/PaperIdeas/detritalApatiteMethodsPaper/Yale_FT_piz/SOURCE/binomfitFunctions.R")
 C0 = .3989423         # 'Used in Gaussian equation, equals 1/sqrt(2*Pi)
 LamdaD = 1.55125E-10  # 'Total decay constant for 238U (yr^-1)
 
