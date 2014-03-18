@@ -5,10 +5,9 @@
 Function to perform the Ftest comparing the Chi2 and df from 2 different age models on the same data
 }
 \description{
- ===================Chi2Comp Program v 1.1  (Brandon 11/12/93)===================
-Compares X^2 values to determine if fit is significantly
-improved. See Bevington (1969, p. 200) for description of method.
+ ===================Chi2Comp Program v 1.1  (Brandon 11/12/93)===================  
 
+Compares X^2 values to determine if fit is significantly improved. See Bevington (1969, p. 200) for description of method.
 }
 \usage{
 Ftest(Chi1, Chi2, DF1, DF2)
@@ -19,7 +18,8 @@ Ftest(Chi1, Chi2, DF1, DF2)
 %%     ~~Describe \code{Chi1} here~~
 }
   \item{Chi2}{
-Chi^2(1) >= Chi^2(2)
+: Chi^2(1) >= Chi^2(2)
+}
   \item{DF1}{
 %%     ~~Describe \code{DF1} here~~
 }
@@ -28,11 +28,11 @@ Chi^2(1) >= Chi^2(2)
 }
 }
 \details{
-The routine for calculating the F distribution probability is from Press
-and others (1986)
+The routine for calculating the F distribution probability is from Press and others (1986)
 
 F = [Chi^2(1) - Chi^2(2)] / [Chi^2(2)/DF2]
-    where 1 refers to the first fit and 2
+
+where 1 refers to the first fit and 2
     the second fit with Chi^2(1) >= Chi^2(2)
 }
 \value{
@@ -59,7 +59,9 @@ F = [Chi^2(1) - Chi^2(2)] / [Chi^2(2)/DF2]
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----
+
 ##-- ==>  Define data, use random,
+
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
