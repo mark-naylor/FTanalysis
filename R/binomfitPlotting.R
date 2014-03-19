@@ -128,9 +128,6 @@ circleFun <- function(center = c(0,0), radius = 6, npoints = 100){
 }
 
 
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 # # # # # # # # # # # # #
 
 
@@ -255,8 +252,6 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     
   } else if (plotType==6){
     
-    # p <- ggplot( dat, aes(logAges)) + geom_histogram(binwidth=0.1) + geom_line( aes(x= logAges, y=mean), data=dat2 , colour="red")+ geom_line(aes(x= logAges, y=lower), data=dat2 ,colour="red", linetype="dashed") + geom_line(aes(x= logAges, y=upper), data=dat2 ,linetype="dashed", colour="red")
-    
     lims = ageLabels
     dfLims = data.frame(x=lims)
     
@@ -268,8 +263,6 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
       xlab("GrainAge [Ma]") + ylab("Count") + ggtitle("PD plot with grain age density")
     
   } else if (plotType==7){
-    
-    # p <- ggplot( dat, aes(logAges)) + geom_histogram(binwidth=0.1) + geom_line( aes(x= logAges, y=mean), data=dat2 , colour="red")+ geom_line(aes(x= logAges, y=lower), data=dat2 ,colour="red", linetype="dashed") + geom_line(aes(x= logAges, y=upper), data=dat2 ,linetype="dashed", colour="red")
     
     lims = c(1,2,3,5,7,10,20,30,50,70,100,120,130,150,170,200)
     dfLims = data.frame(x=lims)
@@ -295,8 +288,7 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
       xlab("GrainAge [Ma]") + ylab("Count") + ggtitle("PD plot with inverted age components")
   }
   
-  return( p )
-  
+  return( p ) 
 }
 
 
@@ -337,9 +329,6 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
-
-
-
 
 
 syntheticSummaryPlot <- function(FTdataset, synthetic_LambdaS, b){
