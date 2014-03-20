@@ -580,7 +580,7 @@ getChi2Comp <- function(Chi1, DF1 , Chi2, DF2){
   
   print( paste( "Probability that F is by chance alone (%) ", 100 * Prob ))
   
-  return( F=F, P=Prob )
+  return( list(F=F, P=Prob) )
 }
 
 
@@ -770,6 +770,7 @@ Chi2ageHeterogeneityTest <- function(FTdataset, benchmarkData=FALSE){
   } else {
     comment = "pValue>0.05 : Data consistent with a common age model"
   }
+
   tmp = list(Chi2=Chi2 , df=df , pValue=pValue, significant=comment)
   return(tmp)
 }
