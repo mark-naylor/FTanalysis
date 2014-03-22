@@ -776,3 +776,14 @@ Chi2ageHeterogeneityTest <- function(FTdataset, benchmarkData=FALSE){
 }
 
 
+
+cut2 <- function(x, nBreaks) {
+  r <- range(x)
+  b <- seq(r[1], r[2], length=2*nBreaks+1)
+  brk <- b[0:nBreaks*2+1]
+  mid <- b[1:nBreaks*2]
+  brk[1] <- brk[1]-0.01
+  k <- cut(x, nBreaks=brk, labels=FALSE)
+  return( unique( mid[k] )  )
+}
+
