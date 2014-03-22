@@ -104,6 +104,10 @@ radialPlot <- function(resultsOutput, FTdataset, colourBy=1, ageLabels=c(1,5,10,
       setColour="yellow"
     }else if (D==4){
       setColour="red"
+    }else if (D==5){
+      setColour="blue"
+    }else if (D==6){
+      setColour="pink"
     }
     
     radialPlot <- radialPlot + 
@@ -129,16 +133,10 @@ circleFun <- function(center = c(0,0), radius = 6, npoints = 100){
 
 
 # # # # # # # # # # # # #
-
+# # # # # # # # # # # # #
+# # # # # # # # # # # # #
 
 PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ageLabels=c(1,2,3,5,7,10,20,50,100,200)){
-  
-  PeakAgeResults = resultsOutput$PeakAgeResults
-  PeakAgeProposed = resultsOutput$PeakAgeProposed
-  PkSDz = resultsOutput$PkSDz
-  PkFrac = resultsOutput$PkFrac
-  PkNum = resultsOutput$PkNum
-  PkZ = resultsOutput$PkZ
   
   if(zeroNsOffset==0){
     Zgrain = FTdataset$Zgrain
@@ -151,9 +149,7 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     Zerr = sqrt(1 / NNs + 1 / NNi)	
   }
   
-  PkZ = ZfromTau(PeakAgeResults)
-  Zmax = max(Zgrain)
-  Zmin = min(Zgrain)
+  Zmin = min(Zgrain)   ;     Zmax = max(Zgrain)
   Ages = TaufromZ(Zgrain)
   
   Num = length(Zgrain)
@@ -165,16 +161,21 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
   
   LwLmt = barWidth * (floor(Zmin / barWidth) - 1)
   UpLmt = barWidth * (1 + floor(Zmax / barWidth))
-  
-  # '... Calculate probability density distribution and write output data.
-  # '... Start and end at 5*QMeanZerr below Zmin and above Zmax, respectively.
+
+  dat = data.frame(Ages, Zgrain, log(Ages))
+  colnames(dat)<-c("Ages", "Zgrain","logAges")
+
+
+#######################   
+  # Calculate probability density distribution based on the data
+  # Start and end at 5*QMeanZerr below Zmin and above Zmax, respectively.
   LwLmt = Zmin - (5 * QMeanZerr)
   UpLmt = Zmax + (5 * QMeanZerr)
   Zi = LwLmt
   atZ=c()
   # '  set above: zWidth = BarWidth / 5
   gCount = floor((UpLmt - LwLmt) / zWidth) + 1
-  pd = array(dim= c(gCount,5 + PkNum) )
+  pd = array(dim= c(gCount,5) )
   for (j in 1:gCount){
     # '... Calculate probability density on the Z scale
     tmp <- KernelPD(Zi, -1, Zgrain, Zerr, Num)
@@ -187,41 +188,12 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     pd[j, 3] = Dsum - SEDsum
     pd[j, 4] = Dsum + SEDsum
     atZ[j]  = Zi
-    SumPkD = 0
-    for (i in 1:PkNum) {
-      dev = Zi - PkZ[i]
-      S = PkSDz[i]
-      if (abs(dev) < 5 * S) {
-        PkD = (100 * barWidth * PkFrac[i]) * (C0 / S) * exp(-(dev * dev) / (2 * S * S))
-      } else {
-        PkD = 0
-      }
-      SumPkD = SumPkD + PkD
-      pd[j, 4 + i] = PkD
-    }
-    pd[j, 5 + i] = SumPkD
     Zi = Zi + zWidth
   }
-  
-  dat = data.frame(Ages, Zgrain, log(Ages))
-  colnames(dat)<-c("Ages", "Zgrain","logAges")
-  dat2 = data.frame(atZ, pd[,1],pd[,2],pd[,3],pd[,4],log(pd[,1]))
-  colnames(dat2)<-c("Zi","age", "mean","upper", "lower","logAges")
-  bottom=pd[,1]*0
-  
-  if(PkNum==1){
-    dat3 = data.frame(atZ, pd[,1],pd[,5],pd[,6],log(pd[,1]), bottom)
-    colnames(dat3)<-c("Zi","age", "firstPeak","total","logAges","bottom")			
-  } else if (PkNum==2) {
-    dat3 = data.frame(atZ, pd[,1],pd[,5],pd[,6],pd[,7],log(pd[,1]), bottom)
-    colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak","total","logAges","bottom")		
-  } else if (PkNum==3) {
-    dat3 = data.frame(atZ, pd[,1],pd[,5],pd[,6],pd[,7],pd[,8],log(pd[,1]), bottom)
-    colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak", "thirdPeak","total","logAges","bottom")	
-  } else if (PkNum==4) {
-    dat3 = data.frame(atZ, pd[,1],pd[,5],pd[,6],pd[,7],pd[,8],pd[,9],log(pd[,1]), bottom)
-    colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak", "thirdPeak","fourthPeak","total","logAges","bottom")		
-  }
+    dat2 = data.frame(atZ, pd[,1],pd[,2],pd[,3],pd[,4],log(pd[,1]))
+    colnames(dat2)<-c("Zi","age", "mean","upper", "lower","logAges")
+    bottom=pd[,1]*0
+    
   
   if(plotType==1){
     
@@ -263,6 +235,55 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
       xlab("GrainAge [Ma]") + ylab("Count") + ggtitle("PD plot with grain age density")
     
   } else if (plotType==7){
+    #######################    
+    #  Create density curves for the peak age model  
+    PeakAgeResults = resultsOutput$PeakAgeResults
+    PeakAgeProposed = resultsOutput$PeakAgeProposed
+    PkSDz = resultsOutput$PkSDz
+    PkFrac = resultsOutput$PkFrac
+    PkNum = resultsOutput$PkNum
+    PkZ = resultsOutput$PkZ
+    
+    pdAges = array(dim= c(gCount,2 + PkNum) )
+    pdAges[,1]=pd[,1]
+    
+    Zi = LwLmt
+    for (j in 1:gCount){
+      SumPkD = 0
+      for (i in 1:PkNum) {
+        dev = Zi - PkZ[i]
+        S = PkSDz[i]
+        if (abs(dev) < 5 * S) {
+          PkD = (100 * barWidth * PkFrac[i]) * (C0 / S) * exp(-(dev * dev) / (2 * S * S))
+        } else {
+          PkD = 0
+        }
+        SumPkD = SumPkD + PkD
+        pdAges[j, 1 + i] = PkD
+      }
+      pdAges[j, i + i] = SumPkD
+      Zi = Zi + zWidth
+    }
+    
+    if(PkNum==1){
+      dat3 = data.frame(atZ, pdAges[,1],pdAges[,2],pdAges[,3],log(pdAges[,1]), bottom)
+      colnames(dat3)<-c("Zi","age", "firstPeak","total","logAges","bottom")  		
+    } else if (PkNum==2) {
+      dat3 = data.frame(atZ, pdAges[,1],pdAges[,2],pdAges[,3],pdAges[,4],log(pdAges[,1]), bottom)
+      colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak","total","logAges","bottom")		
+    } else if (PkNum==3) {
+      dat3 = data.frame(atZ, pdAges[,1],pdAges[,2],pdAges[,3],pdAges[,4],pdAges[,5],log(pdAges[,1]), bottom)
+      colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak", "thirdPeak","total","logAges","bottom")	
+    } else if (PkNum==4) {
+      dat3 = data.frame(atZ, pdAges[,1],pdAges[,2],pdAges[,3],pdAges[,4],pdAges[,5],pdAges[,6],log(pdAges[,1]), bottom)
+      colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak", "thirdPeak","fourthPeak","total","logAges","bottom")		
+    } else if (PkNum==5) {
+      dat3 = data.frame(atZ, pdAges[,1],pdAges[,2],pdAges[,3],pdAges[,4],pdAges[,5],pdAges[,6],pdAges[,7],log(pdAges[,1]), bottom)
+      colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak", "thirdPeak","fourthPeak","fifthPeak","total","logAges","bottom")  	
+    } else if (PkNum==6) {
+      dat3 = data.frame(atZ, pdAges[,1],pdAges[,2],pdAges[,3],pdAges[,4],pdAges[,5],pdAges[,6],pdAges[,7],pdAges[,8],log(pdAges[,1]), bottom)
+      colnames(dat3)<-c("Zi","age", "firstPeak","secondPeak", "thirdPeak","fourthPeak","fifthPeak","sixthPeak","total","logAges","bottom")  	
+    }
     
     lims = c(1,2,3,5,7,10,20,30,50,70,100,120,130,150,170,200)
     dfLims = data.frame(x=lims)
@@ -282,7 +303,12 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     if (PkNum>3){
       p <- p + geom_ribbon(aes(x=age, ymax= fourthPeak, ymin=bottom), data=dat3, fill="red", alpha=0.3, colour="red", linetype="dotdash", size=0.8) + geom_line(aes(x=age, y= fourthPeak), data=dat3, colour="red", linetype="dotdash", size=0.8)
     }
-    
+    if (PkNum>4){
+      p <- p + geom_ribbon(aes(x=age, ymax= fifthPeak, ymin=bottom), data=dat3, fill="blue", alpha=0.3, colour="blue", linetype="dotdash", size=0.8) + geom_line(aes(x=age, y= fifthPeak), data=dat3, colour="blue", linetype="dotdash", size=0.8)
+    }
+    if (PkNum>5){
+      p <- p + geom_ribbon(aes(x=age, ymax= sixthPeak, ymin=bottom), data=dat3, fill="pink", alpha=0.3, colour="pink", linetype="dotdash", size=0.8) + geom_line(aes(x=age, y= sixthPeak), data=dat3, colour="pink", linetype="dotdash", size=0.8)
+    }    
     
     p <- p+ geom_line(aes(x=age, y=total), data=dat3, colour="red", size=0.9) + 
       xlab("GrainAge [Ma]") + ylab("Count") + ggtitle("PD plot with inverted age components")
@@ -441,7 +467,7 @@ plotTrackCountSummary <- function(FTdataset){
 makeBinomfitSummaryPlot_4AgeModels <-function(FTdataset, resultsOutput1, resultsOutput2, resultsOutput3, resultsOutput4, ageLabels, dataTrasformStyle="arcsinTransformation"){
   
   BICmodelComparisonPlot <- ggplot(BICdf, aes(x = nAges, y = deltaBIC)) + geom_point( color="blue") + geom_line()
-
+  
   trackCountSummaryPlot <- plotTrackCountSummary(FTdataset)
   PDplotNoOverlay  <- PDplot(FTdataset, resultsOutput1, plotType=1, zeroNsOffset=0.5)
   plot2  <- PDplot(FTdataset, resultsOutput1, plotType=6, zeroNsOffset=0.5)
