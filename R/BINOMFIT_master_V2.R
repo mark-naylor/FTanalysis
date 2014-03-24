@@ -67,12 +67,12 @@ BINOMFIT_CentralAge  <- function (FTdataset) {
 
 BINOMFIT <- function (FTdataset, TrialAges, peakAgeModel, PkNum, details=NULL, K=1, verbose=TRUE){
   
-  PeakAge = array( dim=( 10 ) )
-  SEPeakAge = array( dim=c(10, 4))
-  PkTheta = array( dim=(10))
-  PkFrac = array( dim=(10))
-  SEPkfrac = array( dim=(10))
-  PkSDz = array( dim=(10) )
+  PeakAge = array( dim=( PkNum ) )
+  SEPeakAge = array( dim=c(PkNum, 4))
+  PkTheta = array( dim=(PkNum))
+  PkFrac = array( dim=(PkNum))
+  SEPkfrac = array( dim=(PkNum))
+  PkSDz = array( dim=(PkNum) )
   
   RhoD = FTdataset$rhoD ; relErrRhoD = FTdataset$relErrRhoD
   Zeta = FTdataset$Zeta ; relErrZeta = FTdataset$relErrZeta
@@ -125,10 +125,10 @@ BINOMFIT <- function (FTdataset, TrialAges, peakAgeModel, PkNum, details=NULL, K
   # # # # SEE PAGE 88 for alternative initial conditions
   
   if(peakAgeModel==1){ 
-    PeakAge = cut2(grainAges, PkNum) 
+    PeakAge = cutAges(grainAges,  nBreaks=PkNum) 
   } else if(peakAgeModel==2) {
-    PeakAge = TaufromZ( cut2(x=Zgrain, nBreaks=PkNum) )
-    print( paste("PeakAges", PeakAge))
+    PeakAge = TaufromZ( cutAges(x=Zgrain, nBreaks=PkNum) )
+    print( PeakAge )
   }
   # outputFileName = paste(dir,filename,"_nAges",PkNum, sep="")
   
