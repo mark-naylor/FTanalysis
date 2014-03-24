@@ -43,8 +43,6 @@
 # GammLn Then redundant
 # '============================================================================
 
-library(zipfR)
-
 LamdaD <- 1.55125E-10  # 'Total decay constant for 238U (yr^-1)
 GF <- .5  
 C0 <- .3989423#        # 'Used in Gaussian equation, equals 1/sqrt(2*Pi)
@@ -288,15 +286,15 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
   RhoD0 <- FTdataset$rhoD
   RERhoD0 <- FTdataset$relErrRhoD
   
-  P=array(dim=c(10, 230))
-  A=array(dim=c(9, 9))
-  B=array(dim=c(9, 10))
-  C=array(dim=c(10, 10))
-  Covar=array(dim=c(19, 19))
-  SEPkfrac = array( dim=(10))
-  PeakAge = array( dim=( 10 ) )
-  SEPeakAge = array( dim=c(10, 4))
-  PkSDz = array( dim=(10) )
+  P=array(dim=c(PkNum, 230))
+  A=array(dim=c((PkNum-1), (PkNum-1)))
+  B=array(dim=c((PkNum-1), PkNum))
+  C=array(dim=c(PkNum, PkNum))
+  Covar=array(dim=c((2 * PkNum - 1), (2 * PkNum - 1)))
+  SEPkfrac = array( dim=(PkNum))
+  PeakAge = array( dim=( PkNum ) )
+  SEPeakAge = array( dim=c(PkNum, 4))
+  PkSDz = array( dim=(PkNum) )
   
   for (U in 1:Num){
     SumFiu = 0
@@ -312,6 +310,7 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
   
   # '... Construct A(), the upper right quadrant of the Inverse Covariance matrix
   PIk = PkFrac[PkNum]
+  if(PkNum>1){
   for (I in 1:(PkNum-1)){
     for ( J in 1:(PkNum-1)){
       A[I, J] = 0
@@ -322,7 +321,9 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
       }
     }
   }
+  }
   # '... Construct B(), the diagonal quadrants of the Inverse Covariance matrix
+  if(PkNum>1){
   for (I in 1:(PkNum-1)){
     for (J in 1:PkNum){
       B[I, J] = 0
@@ -335,6 +336,7 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
         B[I, J] = B[I, J] + P[J, U] * Aju * Term
       }
     }
+  }
   }
   # '... Construct C(), the lower left quadrant of the Inverse Covariance matrix
   for (I in 1:PkNum){
@@ -356,6 +358,7 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
   }
   
   # '... Assembly inverse of covariance matrix
+  if(PkNum>1){
   for (I in 1:(PkNum-1)){
     for (J in 1:(PkNum-1)){
       Covar[I, J] = A[I, J]
@@ -370,6 +373,7 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
     for (J in 1:(PkNum-1)){
       Covar[I + PkNum - 1, J] = B[J, I]
     }
+  }
   }
   for (I in 1:PkNum){
     for (J in 1:PkNum){
@@ -403,7 +407,6 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
     Sum = 0
     for (I in 1:(PkNum-1)){
       for (J in 1:(PkNum-1)){
-        print(I,J)
         Sum = Sum + Covar[I, J]
       }
     }
@@ -777,13 +780,14 @@ Chi2ageHeterogeneityTest <- function(FTdataset, benchmarkData=FALSE){
 
 
 
-cut2 <- function(x, nBreaks) {
-  r <- range(x)
+cutAges <- function(x, nBreaks) {
+  r <- range(x, na.rm=TRUE, finite=TRUE)
   b <- seq(r[1], r[2], length=2*nBreaks+1)
   brk <- b[0:nBreaks*2+1]
   mid <- b[1:nBreaks*2]
-  brk[1] <- brk[1]-0.01
-  k <- cut(x, nBreaks=brk, labels=FALSE)
-  return( unique( mid[k] )  )
+#   brk[1] <- brk[1]-0.01
+#   k <- cut(x, breaks=brk, labels=FALSE)
+#   return( unique( mid[k] )  )
+return(mid)
 }
 
