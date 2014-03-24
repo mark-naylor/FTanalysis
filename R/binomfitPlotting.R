@@ -88,7 +88,7 @@ radialPlot <- function(resultsOutput, FTdataset, colourBy=1, ageLabels=c(1,5,10,
   radialPlot <- radialPlot  + geom_path(data=dat, aes(x,y) ) + geom_hline( aes(y=0), linetype="dotted") +
     geom_segment(data=tics, aes(x=xStart, xend=xEnd, y=yStart, yend=yEnd))+
     geom_text(data=tics, aes(x=xLab, y=yLab, label=label, hjust=-0.2), size=3) +
-    ggtitle("Radial Plot") + xlab("Precision") + ylab("Standardised estimate")  + 
+    ggtitle(paste("Radial Plot: ",PkNum," peaks")) + xlab("Precision") + ylab("Standardised estimate")  + 
     ylim(2*yLimMin, 2*yLimMax) + xlim(0, xLimMax) 
   
   
@@ -232,7 +232,7 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
       geom_line( aes(x= age, y=mean), data=dat2 , colour="red") + 
       geom_line(aes(x= age, y=lower), data=dat2 ,colour="red", linetype="dashed") + 
       geom_line(aes(x= age, y=upper), data=dat2 ,linetype="dashed", colour="red") +
-      xlab("GrainAge [Ma]") + ylab("Count") + ggtitle("PD plot with grain age density")
+      xlab("GrainAge [Ma]") + ylab("Count") + ggtitle("PD Plot: Data density")
     
   } else if (plotType==7){
     #######################    
@@ -242,7 +242,7 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     PkSDz = resultsOutput$PkSDz
     PkFrac = resultsOutput$PkFrac
     PkNum = resultsOutput$PkNum
-    PkZ = resultsOutput$PkZ
+    PkZ = ZfromTau(PeakAgeResults)
     
     pdAges = array(dim= c(gCount,2 + PkNum) )
     pdAges[,1]=pd[,1]
@@ -261,7 +261,7 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
         SumPkD = SumPkD + PkD
         pdAges[j, 1 + i] = PkD
       }
-      pdAges[j, i + i] = SumPkD
+      pdAges[j, i+2] = SumPkD
       Zi = Zi + zWidth
     }
     
@@ -311,7 +311,7 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     }    
     
     p <- p+ geom_line(aes(x=age, y=total), data=dat3, colour="red", size=0.9) + 
-      xlab("GrainAge [Ma]") + ylab("Count") + ggtitle("PD plot with inverted age components")
+      xlab("GrainAge [Ma]") + ylab("Count") + ggtitle(paste("PD Plot: ",PkNum," peaks"))
   }
   
   return( p ) 
@@ -321,7 +321,6 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  require(grid)
   
   # Make a list from the ... arguments and plotlist
   plots <- c(list(...), plotlist)
@@ -528,3 +527,53 @@ makeBinomfitSummaryPlot_6AgeModels <-function(FTdataset, resultsOutput1, results
   
   return(summaryPlot)
 }
+
+
+
+compareModelSolutions<- function(benchmarkSolutions, resultsList, favouredBIC_nPeaks){
+
+benchType=rep("Benchmark",benchmarkSolutions$nPeaks)
+dfBenchmark = data.frame(ages=benchmarkSolutions$ages , upperAge=benchmarkSolutions$ages+2*benchmarkSolutions$ageSE, lowerAge=benchmarkSolutions$ages-2*benchmarkSolutions$ageSE, type=benchType , col="Benchmark Solution")
+
+FTtypeType=rep("1 Peak",1)
+if(favouredBIC_nPeaks==1){col="Favoured Model"} else {col="Other Solution"}
+resultsOutput = resultsList[[1]]
+dfFTanalysis1 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+
+FTtypeType=rep("2 Peaks",2)
+if(favouredBIC_nPeaks==2){col="Favoured Model"} else {col="Other Solution"}
+resultsOutput = resultsList[[2]]
+dfFTanalysis2 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+
+FTtypeType=rep("3 Peaks",3)
+if(favouredBIC_nPeaks==3){col="Favoured Model"} else {col="Other Solution"}
+resultsOutput = resultsList[[3]]
+dfFTanalysis3 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+
+FTtypeType=rep("4 Peaks",4)
+if(favouredBIC_nPeaks==4){col="Favoured Model"} else {col="Other Solution"}
+resultsOutput = resultsList[[4]]
+dfFTanalysis4 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+
+FTtypeType=rep("5 Peaks",5)
+if(favouredBIC_nPeaks==5){col="Favoured Model"} else {col="Other Solution"}
+resultsOutput = resultsList[[5]]
+dfFTanalysis5 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+
+FTtypeType=rep("6 Peaks",6)
+if(favouredBIC_nPeaks==6){col="Favoured Model"} else {col="Other Solution"}
+resultsOutput = resultsList[[6]]
+dfFTanalysis6 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+
+resultsComparisonPlot <- ggplot(dfBenchmark) + geom_point( aes(x=ages, y=type)) + geom_errorbarh( aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) + 
+  geom_point( data=dfFTanalysis1, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis1, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+  geom_point( data=dfFTanalysis2, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis2, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+  geom_point( data=dfFTanalysis3, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis3, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+  geom_point( data=dfFTanalysis4, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis4, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+  geom_point( data=dfFTanalysis5, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis5, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+  geom_point( data=dfFTanalysis6, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis6, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) 
+
+return(resultsComparisonPlot)
+}
+
+
