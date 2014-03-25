@@ -161,12 +161,12 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
   
   LwLmt = barWidth * (floor(Zmin / barWidth) - 1)
   UpLmt = barWidth * (1 + floor(Zmax / barWidth))
-
+  
   dat = data.frame(Ages, Zgrain, log(Ages))
   colnames(dat)<-c("Ages", "Zgrain","logAges")
-
-
-#######################   
+  
+  
+  #######################   
   # Calculate probability density distribution based on the data
   # Start and end at 5*QMeanZerr below Zmin and above Zmax, respectively.
   LwLmt = Zmin - (5 * QMeanZerr)
@@ -190,10 +190,10 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     atZ[j]  = Zi
     Zi = Zi + zWidth
   }
-    dat2 = data.frame(atZ, pd[,1],pd[,2],pd[,3],pd[,4],log(pd[,1]))
-    colnames(dat2)<-c("Zi","age", "mean","upper", "lower","logAges")
-    bottom=pd[,1]*0
-    
+  dat2 = data.frame(atZ, pd[,1],pd[,2],pd[,3],pd[,4],log(pd[,1]))
+  colnames(dat2)<-c("Zi","age", "mean","upper", "lower","logAges")
+  bottom=pd[,1]*0
+  
   
   if(plotType==1){
     
@@ -531,49 +531,49 @@ makeBinomfitSummaryPlot_6AgeModels <-function(FTdataset, resultsOutput1, results
 
 
 compareBenchmarkWithModelSolutions<- function(benchmarkSolutions, resultsList, favouredBIC_nPeaks){
-
-benchType=rep("Benchmark",benchmarkSolutions$nPeaks)
-dfBenchmark = data.frame(ages=benchmarkSolutions$ages , upperAge=benchmarkSolutions$ages+2*benchmarkSolutions$ageSE, lowerAge=benchmarkSolutions$ages-2*benchmarkSolutions$ageSE, type=benchType , col="Benchmark Solution")
-
-FTtypeType=rep("1 Peak",1)
-if(favouredBIC_nPeaks==1){col="Favoured Model"} else {col="Other Solution"}
-resultsOutput = resultsList[[1]]
-dfFTanalysis1 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
-
-FTtypeType=rep("2 Peaks",2)
-if(favouredBIC_nPeaks==2){col="Favoured Model"} else {col="Other Solution"}
-resultsOutput = resultsList[[2]]
-dfFTanalysis2 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
-
-FTtypeType=rep("3 Peaks",3)
-if(favouredBIC_nPeaks==3){col="Favoured Model"} else {col="Other Solution"}
-resultsOutput = resultsList[[3]]
-dfFTanalysis3 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
-
-FTtypeType=rep("4 Peaks",4)
-if(favouredBIC_nPeaks==4){col="Favoured Model"} else {col="Other Solution"}
-resultsOutput = resultsList[[4]]
-dfFTanalysis4 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
-
-FTtypeType=rep("5 Peaks",5)
-if(favouredBIC_nPeaks==5){col="Favoured Model"} else {col="Other Solution"}
-resultsOutput = resultsList[[5]]
-dfFTanalysis5 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
-
-FTtypeType=rep("6 Peaks",6)
-if(favouredBIC_nPeaks==6){col="Favoured Model"} else {col="Other Solution"}
-resultsOutput = resultsList[[6]]
-dfFTanalysis6 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
-
-resultsComparisonPlot <- ggplot(dfBenchmark) + geom_point( aes(x=ages, y=type)) + geom_errorbarh( aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) + 
-  geom_point( data=dfFTanalysis1, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis1, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
-  geom_point( data=dfFTanalysis2, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis2, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
-  geom_point( data=dfFTanalysis3, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis3, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
-  geom_point( data=dfFTanalysis4, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis4, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
-  geom_point( data=dfFTanalysis5, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis5, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
-  geom_point( data=dfFTanalysis6, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis6, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) 
-
-return(resultsComparisonPlot)
+  
+  benchType=rep("Benchmark",benchmarkSolutions$nPeaks)
+  dfBenchmark = data.frame(ages=benchmarkSolutions$ages , upperAge=benchmarkSolutions$ages+2*benchmarkSolutions$ageSE, lowerAge=benchmarkSolutions$ages-2*benchmarkSolutions$ageSE, type=benchType , col="Benchmark Solution")
+  
+  FTtypeType=rep("1 Peak",1)
+  if(favouredBIC_nPeaks==1){col="Favoured Model"} else {col="Other Solution"}
+  resultsOutput = resultsList[[1]]
+  dfFTanalysis1 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+  
+  FTtypeType=rep("2 Peaks",2)
+  if(favouredBIC_nPeaks==2){col="Favoured Model"} else {col="Other Solution"}
+  resultsOutput = resultsList[[2]]
+  dfFTanalysis2 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+  
+  FTtypeType=rep("3 Peaks",3)
+  if(favouredBIC_nPeaks==3){col="Favoured Model"} else {col="Other Solution"}
+  resultsOutput = resultsList[[3]]
+  dfFTanalysis3 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+  
+  FTtypeType=rep("4 Peaks",4)
+  if(favouredBIC_nPeaks==4){col="Favoured Model"} else {col="Other Solution"}
+  resultsOutput = resultsList[[4]]
+  dfFTanalysis4 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+  
+  FTtypeType=rep("5 Peaks",5)
+  if(favouredBIC_nPeaks==5){col="Favoured Model"} else {col="Other Solution"}
+  resultsOutput = resultsList[[5]]
+  dfFTanalysis5 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+  
+  FTtypeType=rep("6 Peaks",6)
+  if(favouredBIC_nPeaks==6){col="Favoured Model"} else {col="Other Solution"}
+  resultsOutput = resultsList[[6]]
+  dfFTanalysis6 = data.frame(ages=resultsOutput$PeakAgeResults , upperAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95plus, lowerAge=resultsOutput$PeakAgeResults+resultsOutput$PeakAgeCI95min, type=FTtypeType, col=col)
+  
+  resultsComparisonPlot <- ggplot(dfBenchmark) + geom_point( aes(x=ages, y=type)) + geom_errorbarh( aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) + 
+    geom_point( data=dfFTanalysis1, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis1, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+    geom_point( data=dfFTanalysis2, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis2, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+    geom_point( data=dfFTanalysis3, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis3, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+    geom_point( data=dfFTanalysis4, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis4, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+    geom_point( data=dfFTanalysis5, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis5, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) +
+    geom_point( data=dfFTanalysis6, aes(x=ages, y=type))+ geom_errorbarh( data=dfFTanalysis6, aes(x=ages, xmax=upperAge, xmin=lowerAge, y=type, colour=col)) 
+  
+  return(resultsComparisonPlot)
 }
 
 
