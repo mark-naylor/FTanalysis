@@ -384,11 +384,12 @@ StdErr <- function (FTdataset , PkTheta, PkFrac, PkNum, GF){
   # '... Invert the matrix Covar using the SVD routine
   M = 2 * PkNum - 1
   
-  # for(i in 1:M){
-  # for(j in 1:M){
-  # Covar[i,j] <- Covar[i,j] + (runif(1)-0.5)*2*0.000001
-  # }
-  # }
+  # In order to reduce the chance of a matrix being singular... (trying)   
+  for(i in 1:M){
+  for(j in 1:M){
+    Covar[i,j] <- Covar[i,j] + (runif(1)-0.5)*2*0.000001
+  }
+  }
   # print(Covar)
   
   Covar[1:M,1:M] <- solve(Covar[1:M,1:M])
