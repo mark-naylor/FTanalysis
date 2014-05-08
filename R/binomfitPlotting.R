@@ -89,7 +89,7 @@ radialPlot <- function(resultsOutput, FTdataset, colourBy=1, ageLabels=c(1,5,10,
     geom_segment(data=tics, aes(x=xStart, xend=xEnd, y=yStart, yend=yEnd))+
     geom_text(data=tics, aes(x=xLab, y=yLab, label=label, hjust=-0.2), size=3) +
     ggtitle(paste("Radial Plot: ",PkNum," peaks")) + xlab("Precision") + ylab("Standardised estimate")  + 
-    ylim(2*yLimMin, 2*yLimMax) + xlim(0, xLimMax) 
+    coord_cartesian( ylim=c (2*yLimMin, 2*yLimMax), xlim=c(0, xLimMax) ) 
   
   
   for (D in 1:PkNum){
@@ -204,7 +204,7 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
     
     p  <- ggplot(data=dat2) + geom_line(aes(x=age, y=mean)) + 
       geom_line(aes(x=age, y=lower), colour="red", linetype="dashed")+ 
-      geom_line(aes(x=age, y=upper), linetype="dashed", colour="red") + xlim(0, 50)
+      geom_line(aes(x=age, y=upper), linetype="dashed", colour="red") + coord_cartesian( xlim=c(0, 50) )
     
   } else if (plotType==3){
     
@@ -212,11 +212,11 @@ PDplot <- function(FTdataset, resultsOutput=NULL, plotType=1, zeroNsOffset=0, ag
       geom_line(aes(x=age, y=firstPeak), data=dat3, colour="red", linetype="dotdash") + 
       geom_line(aes(x=age, y=secondPeak), data=dat3, colour="purple", linetype="dotdash")+ 
       geom_line(aes(x=age, y=thirdPeak), data=dat3, colour="yellow", linetype="dotdash")+ 
-      geom_line(aes(x=age, y=total), data=dat3, colour="red") + xlim(0, 50)
+      geom_line(aes(x=age, y=total), data=dat3, colour="red") + coord_cartesian( xlim=c(0, 50) )
     
   } else if (plotType==4){
     
-    p <- ggplot(data=dat3) + geom_line(aes(x=age, y=mean), colour="red", linetype="dotdash") + geom_line(aes(x=age, y=lower), colour="purple", linetype="dotdash")+ geom_line(aes(x=age, y=upper), colour="blue", linetype="dotdash")+ geom_line(aes(x=age, y=total), colour="black") + xlim(0, 50)
+    p <- ggplot(data=dat3) + geom_line(aes(x=age, y=mean), colour="red", linetype="dotdash") + geom_line(aes(x=age, y=lower), colour="purple", linetype="dotdash")+ geom_line(aes(x=age, y=upper), colour="blue", linetype="dotdash")+ geom_line(aes(x=age, y=total), colour="black") + coord_cartesian( xlim=c(0, 50) )
     
   } else if (plotType==5){
     
@@ -400,7 +400,7 @@ syntheticSummaryPlot <- function(FTdataset, synthetic_LambdaS, b){
 
 plot4x2AgeHists <- function(ageList1, ageList2, ageList3, ageList5, preferedAgeModels1, preferedAgeModels2, preferedAgeModels3, preferedAgeModels4){
   
-  blankPlot = ggplot(peakDF1) + geom_blank()+ xlim(0, 10) + ylim(0, 100)
+  blankPlot = ggplot(peakDF1) + geom_blank()+ coord_cartesian( xlim=c(0, 10), ylim=c(0, 100))
   
   peakDF1 = data.frame(age=ageList1)
   ageHist1 <- ggplot(peakDF1)+ geom_bar( binwidth=1 , aes(x=age, fill=as.factor(1))) + geom_vline(xintercept = xmin) + geom_vline(xintercept = xmax) # defaults to stacking
@@ -453,7 +453,7 @@ plotOrderedAges <- function(FTdataset){
   n=order(grainAge)
   index=seq(1, nGrains)
   df = data.frame(ages=grainAge[n], index=index, lowerAge=FTdataset$grainAges95min[n], upperAge=FTdataset$grainAges95max[n])
-  ggplot(df)+geom_point( aes(x=ages, y=index)) + geom_errorbarh( aes(x=ages, xmax= upperAge, xmin= lowerAge,y=index)) + xlim(0,100)
+  ggplot(df)+geom_point( aes(x=ages, y=index)) + geom_errorbarh( aes(x=ages, xmax= upperAge, xmin= lowerAge,y=index)) + coord_cartesian( xlim=c(0, 100) )
 }
 
 
