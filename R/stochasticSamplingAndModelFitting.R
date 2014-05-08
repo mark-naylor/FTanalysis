@@ -1,9 +1,9 @@
 
-getStochasticBimodalFit<- function(nI, peaksAt, input, b){
+getStochasticBimodalFit<- function(nI, peaksAt, input, b, probs=NULL){
   
   nGrains = length(nI)
   
-  synthetic_LambdaS <-sampleLambdaS_ClosureAgePeaks(nI, peaksAt, b , plot=FALSE)
+  synthetic_LambdaS <-sampleLambdaS_ClosureAgePeaks(nI, peaksAt, b , plot=FALSE, probs=probs)
   
   #   **Generate a sample of nS**
   nS<-sampleNs(synthetic_LambdaS$lambdaS)
