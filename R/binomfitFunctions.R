@@ -832,10 +832,11 @@ findMinChi2Age <- function(FTdataset){
   #   
   #   tmp = list(Chi2=Chi2 , df=df , pValue=pValue, significant=comment)
   #   return(tmp)
-  isCommonMinimum = (pValue_List>0.05)
+  isCommonMinimum_0p05 = (pValue_List>0.05)
+  isCommonMinimum_0p01 = (pValue_List>0.01)
   
   
-  result=data.frame(ages[grainAgeOrder],nI_All,nS_All,Chi2_List, pValue_List, df,pooledAge,isCommonMinimum)
+  result=data.frame(ages[grainAgeOrder],nI_All,nS_All,Chi2_List, pValue_List, df,pooledAge,isCommonMinimum_0p05, isCommonMinimum_0p01)
   
   return(result)
 }
