@@ -70,5 +70,5 @@ findMinAgeGaussian3 <- function(piGammaRange=seq(0.1,1,0.1), sigmaRange=seq(0.1,
   
   age = 1/lambdaD * log(1+0.5*lambdaD*zeta*rhoD* trackRatio)
   
-  c(age, gamma, sigma, piGamma, L[n])
+  c(age, results$gamma, results$sigma, results$piGamma, L[n])
 }
