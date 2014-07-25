@@ -39,6 +39,7 @@ fU3 <- function(zU, sigmaU, gamma, sigma, piGamma){
 
 
 findMinAgeGaussian3 <- function(piGammaRange=seq(0.1,1,0.1), sigmaRange=seq(0.1,5,0.1), ageRange, FTdataset){
+  lambdaD = 1.55125E-4
   nI=FTdataset$nI
   nS=FTdataset$nS
   zeta=FTdataset$Zeta
