@@ -1,5 +1,5 @@
 
-getMinAgeMod_Verm <- function(nS, nI, doLog=TRUE) {
+getMinAgeMod_Verm <- function(nS, nI, doLog=TRUE, ng = 100, ns = 25, np = 10) {
   
 #   gspbest = array(dim=3)  # gsp = gamma, sigma, pi (->Age, dispersion, proportion at minimum)
   
@@ -9,10 +9,7 @@ getMinAgeMod_Verm <- function(nS, nI, doLog=TRUE) {
   sUs = sqrt( (1/(nS+0.5)) + (1/(nI+0.5)) )
   nGrains = length(nI)
   
-  print(zUs)
-  print(sUs)
-  
-    ng = 100; ns = 25 ; np = 10    #  number of iterations for each parameter;
+#     ng = 100; ns = 25 ; np = 10    #  number of iterations for each parameter;
     
 #     gUs = nS/nI ; gUs[which(gUs==0)]=0.0001 ; n=which(gUs==Inf) ; gUs[n]= (nS[n]+0.5)/(nI[n]+0.5)
     gUs=zUs
@@ -40,10 +37,9 @@ getMinAgeMod_Verm <- function(nS, nI, doLog=TRUE) {
         }
       }
     }
-    print(paste( dg=dg/2, ds=ds/2, dp=dp/2, nGrains, sep="  ;  ") )
+  
     gammaErr = cov_Verm(zUs, sUs, dg=dg/2, ds=ds/2, dp=dp/2, gspbest, nGrains)
-  print(gammaErr)
-print(gspbest)
+  
 #   } catch (Exception e){
 #     gspbest[1] = tmM[1];
 #     gammaErr = tmM[3];
@@ -53,10 +49,6 @@ print(gspbest)
     gspbest[1] = exp(gspbest[1])
     gammaErr   = gammaErr*gspbest[1]
   }
-
-print(gammaErr)
-print(gspbest)
-print(oldLL)
 
 results = data.frame(gamma=gspbest[1] ,sigma=gspbest[2], prop=gspbest[3], gammaErr=gammaErr, logLike=oldLL)
   return(results)
